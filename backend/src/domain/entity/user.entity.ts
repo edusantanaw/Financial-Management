@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-interface IUser {
+export interface IUser {
   id?: string;
   name: string;
   cpfCnpj: string;
