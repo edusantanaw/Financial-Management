@@ -12,7 +12,6 @@ describe("CreateUserUsecase", () => {
   });
 
   test("should call userRepository.loadByCpfCnph method with correct value", async () => {
-    const { userRepository, createUserUsecase } = makeSut();
     await createUserUsecase.execute({
       cpfCnpj: "123456789",
     } as ICreateUserData);
@@ -50,6 +49,20 @@ describe("CreateUserUsecase", () => {
   });
 
   test("should call tokenGenerator with correct values", async () => {
+    const { createUserUsecase, tokenGenerator } = makeSut();
+    const values = {
+      cpfCnpj: "123456789",
+      email: "edu@email.com",
+      password: "1234",
+      name: "1234",
+      id: "123",
+    } as ICreateUserData;
+    await createUserUsecase.execute(values as ICreateUserData);
+    const { password, ...rest } = values;
+    expect(tokenGenerator.input).toEqual(rest);
+  });
+
+  test("should call userRepository.create with corrects values", async () => {
     const { createUserUsecase, tokenGenerator } = makeSut();
     const values = {
       cpfCnpj: "123456789",
